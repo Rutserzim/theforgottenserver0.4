@@ -1109,13 +1109,11 @@ uint32_t DatabaseManager::updateDatabase()
 			{
 				case DATABASE_ENGINE_SQLITE:
 				{
-					query << "ALTER TABLE `accounts` ADD `salt` VARCHAR(40) NOT NULL DEFAULT '';";
 					break;
 				}
 
 				case DATABASE_ENGINE_MYSQL:
 				{
-					query << "ALTER TABLE `accounts` ADD `salt` VARCHAR(40) NOT NULL DEFAULT '' AFTER `password`;";
 					break;
 				}
 

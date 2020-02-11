@@ -92,8 +92,6 @@ Game::Game()
 
 Game::~Game()
 {
-	blacklist.clear();
-	whitelist.clear();
 	delete map;
 }
 
@@ -219,8 +217,6 @@ void Game::setGameState(GameState_t newState)
 				Raids::getInstance()->loadFromXml();
 				Raids::getInstance()->startup();
 				Quests::getInstance()->loadFromXml();
-
-				loadStatuslist();
 
 				loadGameState();
 				g_globalEvents->startup();
@@ -5955,37 +5951,4 @@ void Game::showHotkeyUseMessage(Player* player, Item* item)
 		stream << "Using one of " << count << " " << it.pluralName.c_str() << "...";
 
 	player->sendTextMessage(MSG_INFO_DESCR, stream.str().c_str());
-}
-
-bool Game::loadStatuslist()
-{
-	xmlDocPtr doc = xmlParseFile("http://forgottenserver.otland.net/statuslist.xml");
-	if(!doc)
-		return false;
-
-	xmlNodePtr p, root = xmlDocGetRootElement(doc);
-	if(!xmlStrcmp(root->name, (const xmlChar*)"statuslist"))
-	{
-		p = root->children;
-		while(p)
-		{
-			if(!xmlStrcmp(p->name, (const xmlChar*)"blacklist"))
-			{
-				std::string ip;
-				if(readXMLString(p, "ip", ip))
-					blacklist.push_back(ip);
-			}
-			else if(!xmlStrcmp(p->name, (const xmlChar*)"whitelist"))
-			{
-				std::string ip;
-				if(readXMLString(p, "ip", ip))
-					whitelist.push_back(ip);
-			}
-
-			p = p->next;
-		}
-	}
-
-	xmlFreeDoc(doc);
-	return true;
 }

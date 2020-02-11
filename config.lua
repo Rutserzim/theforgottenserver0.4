@@ -11,7 +11,6 @@
 	newPlayerLevel = 1
 	newPlayerMagicLevel = 0
 	generateAccountNumber = false
-	generateAccountSalt = false
 
 	-- Unjustified kills
 	-- NOTE: *Banishment and *BlackSkull variables are >summed up<

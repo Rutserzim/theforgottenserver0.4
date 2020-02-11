@@ -42,20 +42,11 @@ void ProtocolStatus::onRecvFirstMessage(NetworkMessage& msg)
 	if(getIP() != LOCALHOST)
 	{
 		std::string ip = convertIPAddress(getIP());
-		if(!g_game.isInWhitelist(ip))
+		IpConnectMap::const_iterator it = ipConnectMap.find(getIP());
+		if(it != ipConnectMap.end() && OTSYS_TIME() < it->second + g_config.getNumber(ConfigManager::STATUSQUERY_TIMEOUT))
 		{
-			if(g_game.isInBlacklist(ip))
-			{
-				getConnection()->close();
-				return;
-			}
-
-			IpConnectMap::const_iterator it = ipConnectMap.find(getIP());
-			if(it != ipConnectMap.end() && OTSYS_TIME() < it->second + g_config.getNumber(ConfigManager::STATUSQUERY_TIMEOUT))
-			{
-				getConnection()->close();
-				return;
-			}
+			getConnection()->close();
+			return;
 		}
 		ipConnectMap[getIP()] = OTSYS_TIME();
 	}

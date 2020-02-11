@@ -607,11 +607,6 @@ class Game
 		int32_t getLightHour() const {return lightHour;}
 		void startDecay(Item* item);
 
-		bool loadStatuslist();
-
-		bool isInBlacklist(std::string ip) const { return std::find(blacklist.begin(), blacklist.end(), ip) != blacklist.end(); }
-		bool isInWhitelist(std::string ip) const { return std::find(whitelist.begin(), whitelist.end(), ip) != whitelist.end(); }
-
 	protected:
 		bool playerWhisper(Player* player, const std::string& text);
 		bool playerYell(Player* player, const std::string& text);
@@ -670,8 +665,5 @@ class Game
 
 		Highscore highscoreStorage[9];
 		time_t lastHighscoreCheck;
-
-		StatusList blacklist;
-		StatusList whitelist;
 };
 #endif
